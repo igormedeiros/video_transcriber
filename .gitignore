@@ -1,0 +1,20 @@
+
+# Python cache files
+__pycache__/
+*.pyc
+
+# Virtual environment
+venv/
+.venv/
+
+# OS generated files
+.DS_Store
+*.log
+
+# Generated audio files (assuming the script might generate these)
+*.wav
+*.mp3
+
+# IDE related
+.idea/
+
