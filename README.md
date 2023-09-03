@@ -4,9 +4,10 @@
 A tool to transcribe audio from videos using Google Speech Recognition.
 
 ## Features
-- item1
-- item2
-- etc
+- **Audio Extraction:** Extracts audio from a given video file.
+- **Audio Transcription:** Transcribes the extracted audio using Google Speech Recognition.
+- **Progress Indicator:** Shows progress during the transcription process.
+- **Support for Multiple Formats:** Ability to process videos in various formats (depending on the capabilities of the `moviepy` library).
 
 ## Prerequisites
 Ensure you have the following installed:
