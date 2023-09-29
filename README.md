@@ -30,7 +30,7 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 ## Author
 **Igor Medeiros**
-- Email: igormedeiros.devpython@gmail.com
+- Email: dev@igormedeiros.com.br
 - WhatsApp: +5511950016111
 
 ## License
