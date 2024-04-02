@@ -1,4 +1,3 @@
-import io
 import sys
 import os
 
@@ -14,42 +13,39 @@ def extract_audio_from_video(video_path, audio_path):
     video.audio.write_audiofile(audio_path)
 
 
+import requests
+import base64
+
 def transcribe_audio(audio_path):
-    """Transcribes the given audio file using Google Speech Recognition."""
-    r = sr.Recognizer()
+    # Load audio file
+    with open(audio_path, 'rb') as audio_file:
+        audio_data = audio_file.read()
 
-    # Split the audio into 30-second segments
-    segment_duration = 30  # in seconds
-    audio = AudioSegment.from_wav(audio_path)
-    duration = len(audio) / 1000  # Total duration in seconds
-    segments = int(duration / segment_duration)
+    # Convert audio data to base64
+    audio_base64bytes = base64.b64encode(audio_data)
+    audio_string = audio_base64bytes.decode('utf-8')
 
-    transcription = ""
+    # Prepare the JSON payload
+    data = {
+        "audio": {
+            "data": audio_string
+        },
+        "config": {
+            "encoding": "LINEAR16",  # or other encoding as per your audio file
+            "sampleRateHertz": 16000  # or other rate as per your audio file
+        }
+    }
+    
+    # Make the POST request
+    response = requests.post('https://api.openai.com/v1/whisper/recognize', json=data)
 
-    for i in tqdm(range(segments + 1), desc="Transcribing", unit="segment"):
-        start_time = i * segment_duration * 1000
-        end_time = (i + 1) * segment_duration * 1000
-        audio_segment = audio[start_time:end_time]
-
-        # Save the audio segment to a temporary file
-        temp_filename = f"temp_segment_{i}.wav"
-        audio_segment.export(temp_filename, format="wav")
-
-        with sr.AudioFile(temp_filename) as source:
-            audio_data = r.record(source)
-            try:
-                text = r.recognize_google(audio_data, language='pt-BR')
-                transcription += text + " "
-            except sr.UnknownValueError:
-                print(f"Segment {i + 1} not recognized.")
-            except sr.RequestError as e:
-                print(f"API request error on segment {i + 1}.")
-                break  # Stop if there's an error calling the API
-
-        # Remove the temporary file after using it
-        os.remove(temp_filename)
-
-    return transcription.strip()
+    # Parse the response
+    if response.status_code == 200:
+        result = response.json()
+        return result['transcript']
+    else:
+        print(f"Error: {response.status_code}, {response.text}")
+        return None
 
 
 if __name__ == '__main__':
