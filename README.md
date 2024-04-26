@@ -28,10 +28,5 @@ python transcribe.py <path_to_video>
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-## Author
-**Igor Medeiros**
-- Email: dev@igormedeiros.com.br
-- WhatsApp: +5511950016111
-
 ## License
 This project is open source and available under the [MIT License](LICENSE).
