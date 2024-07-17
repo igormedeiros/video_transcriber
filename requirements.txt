@@ -1,4 +1,4 @@
 moviepy
-SpeechRecognition
+openai-whisper
 tqdm
 pydub
